@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
 import 'package:animated_stream_list/src/myers_diff.dart';
-import 'package:animated_stream_list/src/sliver_list_controller.dart';
+import 'package:animated_stream_list/src/sliver_animated_stream_list/sliver_diff_applier.dart';
+import 'package:animated_stream_list/src/sliver_animated_stream_list/sliver_list_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_stream_list/src/diff_applier.dart';
+import 'package:animated_stream_list/src/animated_stream_list/diff_applier.dart';
 
 class SliverAnimatedStreamList<E> extends StatefulWidget {
   final Stream<List<E>> streamList;
@@ -31,7 +32,7 @@ class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E
     with WidgetsBindingObserver {
   final GlobalKey<SliverAnimatedListState> _globalKey = GlobalKey();
   SliverListController<E> _listController;
-  DiffApplier<E> _diffApplier;
+  SliverDiffApplier<E> _diffApplier;
   DiffUtil<E> _diffUtil;
   StreamSubscription _subscription;
 
@@ -59,7 +60,7 @@ class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E
         itemRemovedBuilder: widget.itemRemovedBuilder,
         duration: widget.duration);
 
-    _diffApplier = DiffApplier(_listController);
+    _diffApplier = SliverDiffApplier(_listController);
     _diffUtil = DiffUtil();
 
     startListening();

@@ -1,8 +1,6 @@
 import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
 import 'package:flutter/material.dart';
 
-import 'list_controller.dart';
-
 
 class SliverListController<E> {
   final GlobalKey<SliverAnimatedListState> key;
@@ -31,7 +29,7 @@ class SliverListController<E> {
     E item = items.removeAt(index);
     _list.removeItem(
       index,
-      (BuildContext context, Animation<double> animation) =>
+      (context, animation) =>
           itemRemovedBuilder(item, index, context, animation),
       duration: duration,
     );
