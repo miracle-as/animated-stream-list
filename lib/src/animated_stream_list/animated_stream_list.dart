@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
-import 'package:animated_stream_list/src/list_controller.dart';
+import 'package:animated_stream_list/src/animated_stream_list/list_controller.dart';
 import 'package:animated_stream_list/src/myers_diff.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:animated_stream_list/src/diff_applier.dart';
+import 'package:animated_stream_list/src/animated_stream_list/diff_applier.dart';
 
 class AnimatedStreamList<E> extends StatefulWidget {
   final Stream<List<E>> streamList;

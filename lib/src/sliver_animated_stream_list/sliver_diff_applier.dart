@@ -1,4 +1,4 @@
-import 'package:animated_stream_list/src/animated_stream_list/diff_payload.dart';
+import 'package:animated_stream_list/src/diff_payload.dart';
 import 'package:animated_stream_list/src/sliver_animated_stream_list/sliver_list_controller.dart';
 
 class SliverDiffApplier<E> {

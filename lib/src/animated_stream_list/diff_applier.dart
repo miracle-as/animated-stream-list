@@ -1,5 +1,5 @@
 import 'package:animated_stream_list/src/diff_payload.dart';
-import 'package:animated_stream_list/src/list_controller.dart';
+import 'package:animated_stream_list/src/animated_stream_list/list_controller.dart';
 
 class DiffApplier<E> {
   final DiffVisitor _visitor;
