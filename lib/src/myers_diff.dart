@@ -1,6 +1,5 @@
 import 'package:animated_stream_list/src/diff_payload.dart';
 import 'package:animated_stream_list/src/path_node.dart';
-import 'package:flutter/foundation.dart';
 
 typedef bool Equalizer(dynamic item1, dynamic item2);
 
@@ -8,10 +7,10 @@ class DiffUtil<E> {
   static Equalizer eq;
 
   Future<List<Diff>> calculateDiff(List<E> oldList, List<E> newList,
-      {Equalizer equalizer}) {
+      {Equalizer equalizer}) async {
     eq = equalizer;
     final args = _DiffArguments<E>(oldList, newList);
-    return compute(_myersDiff, args);
+    return _myersDiff(args);
   }
 }
 
