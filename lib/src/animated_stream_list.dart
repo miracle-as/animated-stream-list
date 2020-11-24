@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
 import 'package:animated_stream_list/src/list_controller.dart';
 import 'package:animated_stream_list/src/myers_diff.dart';
 import 'package:flutter/foundation.dart';

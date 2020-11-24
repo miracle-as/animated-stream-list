@@ -1,13 +1,16 @@
 import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
 import 'package:flutter/material.dart';
 
-class ListController<E> {
-  final GlobalKey<AnimatedListState> key;
+import 'list_controller.dart';
+
+
+class SliverListController<E> {
+  final GlobalKey<SliverAnimatedListState> key;
   final List<E> items;
   final Duration duration;
   final AnimatedStreamListItemBuilder<E> itemRemovedBuilder;
 
-  ListController({
+  SliverListController({
     @required this.key,
     @required this.items,
     @required this.itemRemovedBuilder,
@@ -16,7 +19,7 @@ class ListController<E> {
         assert(itemRemovedBuilder != null),
         assert(items != null);
 
-  AnimatedListState get _list => key.currentState;
+  SliverAnimatedListState get _list => key.currentState;
 
   void insert(int index, E item) {
     items.insert(index, item);

@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:animated_stream_list/src/list_controller.dart';
+import 'package:animated_stream_list/src/animated_stream_list_item_builder.dart';
 import 'package:animated_stream_list/src/myers_diff.dart';
+import 'package:animated_stream_list/src/sliver_list_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_stream_list/src/diff_applier.dart';
@@ -28,8 +29,8 @@ class SliverAnimatedStreamList<E> extends StatefulWidget {
 
 class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E>>
     with WidgetsBindingObserver {
-  final GlobalKey<AnimatedListState> _globalKey = GlobalKey();
-  ListController<E> _listController;
+  final GlobalKey<SliverAnimatedListState> _globalKey = GlobalKey();
+  SliverListController<E> _listController;
   DiffApplier<E> _diffApplier;
   DiffUtil<E> _diffUtil;
   StreamSubscription _subscription;
@@ -52,7 +53,7 @@ class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E
   @override
   void initState() {
     super.initState();
-    _listController = ListController(
+    _listController = SliverListController(
         key: _globalKey,
         items: widget.initialList ?? <E>[],
         itemRemovedBuilder: widget.itemRemovedBuilder,
