@@ -81,7 +81,7 @@ main() {
 
   test("check if throws when second list is null", () async {
     final list1 = [1];
-    final list2 = null;
+    final dynamic list2 = null;
     final controller = ListController<int>(
       items: list1,
       key: MockKey(),

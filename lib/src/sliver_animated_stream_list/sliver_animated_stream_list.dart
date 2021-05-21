@@ -10,17 +10,17 @@ import 'package:animated_stream_list/src/animated_stream_list/diff_applier.dart'
 
 class SliverAnimatedStreamList<E> extends StatefulWidget {
   final Stream<List<E>> streamList;
-  final List<E> initialList;
+  final List<E>? initialList;
   final AnimatedStreamListItemBuilder<E> itemBuilder;
   final AnimatedStreamListItemBuilder<E> itemRemovedBuilder;
-  final Equalizer equals;
+  final Equalizer? equals;
   final Duration duration;
 
   SliverAnimatedStreamList(
-      {@required this.streamList,
+      {required this.streamList,
       this.initialList,
-      @required this.itemBuilder,
-      @required this.itemRemovedBuilder,
+      required this.itemBuilder,
+      required this.itemRemovedBuilder,
       this.equals,
       this.duration = const Duration(milliseconds: 300)});
 
@@ -31,16 +31,16 @@ class SliverAnimatedStreamList<E> extends StatefulWidget {
 class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E>>
     with WidgetsBindingObserver {
   final GlobalKey<SliverAnimatedListState> _globalKey = GlobalKey();
-  SliverListController<E> _listController;
-  SliverDiffApplier<E> _diffApplier;
-  DiffUtil<E> _diffUtil;
-  StreamSubscription _subscription;
+  SliverListController<E>? _listController;
+  late SliverDiffApplier<E> _diffApplier;
+  late DiffUtil<E> _diffUtil;
+  StreamSubscription? _subscription;
 
   void startListening() {
     _subscription?.cancel();
     _subscription = widget.streamList
       .asyncExpand((list) => _diffUtil
-          .calculateDiff(_listController.items, list, equalizer: widget.equals)
+          .calculateDiff(_listController!.items, list, equalizer: widget.equals)
           .then(_diffApplier.applyDiffs)
           .asStream())
       .listen((list) { });
@@ -89,16 +89,16 @@ class _SliverAnimatedStreamListState<E> extends State<SliverAnimatedStreamList<E
   @override
   Widget build(BuildContext context) {
     return SliverAnimatedList(
-      initialItemCount: _listController.items.length,
+      initialItemCount: _listController!.items.length,
       key: _globalKey,      
       itemBuilder:
           (BuildContext context, int index, Animation<double> animation) =>
               widget.itemBuilder(
-        _listController[index],
+        _listController![index],
         index,
         context,
         animation,
-      ),
+      )!,
     );
   }
 }

@@ -9,28 +9,28 @@ class SliverListController<E> {
   final AnimatedStreamListItemBuilder<E> itemRemovedBuilder;
 
   SliverListController({
-    @required this.key,
-    @required this.items,
-    @required this.itemRemovedBuilder,
-    @required this.duration,
+    required this.key,
+    required this.items,
+    required this.itemRemovedBuilder,
+    required this.duration,
   })  : assert(key != null),
         assert(itemRemovedBuilder != null),
         assert(items != null);
 
-  SliverAnimatedListState get _list => key.currentState;
+  SliverAnimatedListState? get _list => key.currentState;
 
   void insert(int index, E item) {
     items.insert(index, item);
 
-    _list.insertItem(index, duration: duration);
+    _list!.insertItem(index, duration: duration);
   }
 
   void removeItemAt(int index) {
     E item = items.removeAt(index);
-    _list.removeItem(
+    _list!.removeItem(
       index,
       (context, animation) =>
-          itemRemovedBuilder(item, index, context, animation),
+          itemRemovedBuilder(item, index, context, animation)!,
       duration: duration,
     );
   }
@@ -43,7 +43,7 @@ class SliverListController<E> {
     }
 
     // ignore: invalid_use_of_protected_member
-    _list.setState(() {});
+    _list!.setState(() {});
   }
 
   int get length => items.length;

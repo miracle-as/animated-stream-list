@@ -4,10 +4,10 @@ import 'package:animated_stream_list/src/path_node.dart';
 typedef bool Equalizer(dynamic item1, dynamic item2);
 
 class DiffUtil<E> {
-  static Equalizer eq;
+  static Equalizer? eq;
 
-  Future<List<Diff>> calculateDiff(List<E> oldList, List<E> newList,
-      {Equalizer equalizer}) async {
+  Future<List<Diff>> calculateDiff(List<E> oldList, List<E>? newList,
+      {Equalizer? equalizer}) async {
     eq = equalizer;
     final args = _DiffArguments<E>(oldList, newList);
     return _myersDiff(args);
@@ -16,16 +16,15 @@ class DiffUtil<E> {
 
 class _DiffArguments<E> {
   final List<E> oldList;
-  final List<E> newList;
+  final List<E>? newList;
 
   _DiffArguments(this.oldList, this.newList);
 }
 
 List<Diff> _myersDiff<E>(_DiffArguments<E> args) {
   final List<E> oldList = args.oldList;
-  final List<E> newList = args.newList;
+  final List<E>? newList = args.newList;
 
-  if (oldList == null) throw ArgumentError("oldList is null");
   if (newList == null) throw ArgumentError("newList is null");
 
   if (oldList == newList) return [];
@@ -47,14 +46,14 @@ List<Diff> _myersDiff<E>(_DiffArguments<E> args) {
   return diffs.reversed.toList(growable: true);
 }
 
-PathNode _buildPath<E>(List<E> oldList, List<E> newList, Equalizer equals) {
+PathNode? _buildPath<E>(List<E> oldList, List<E> newList, Equalizer? equals) {
   final oldSize = oldList.length;
   final newSize = newList.length;
 
   final int max = oldSize + newSize + 1;
   final size = (2 * max) + 1;
   final int middle = size ~/ 2;
-  final List<PathNode> diagonal = List(size);
+  final List<PathNode?> diagonal = List.filled(size, null);
 
   diagonal[middle + 1] = Snake(0, -1, null);
   for (int d = 0; d < max; d++) {
@@ -62,16 +61,16 @@ PathNode _buildPath<E>(List<E> oldList, List<E> newList, Equalizer equals) {
       final int kmiddle = middle + k;
       final int kplus = kmiddle + 1;
       final int kminus = kmiddle - 1;
-      PathNode prev;
+      PathNode? prev;
 
       int i;
       if ((k == -d) ||
           (k != d &&
-              diagonal[kminus].originIndex < diagonal[kplus].originIndex)) {
-        i = diagonal[kplus].originIndex;
+              diagonal[kminus]!.originIndex < diagonal[kplus]!.originIndex)) {
+        i = diagonal[kplus]!.originIndex;
         prev = diagonal[kplus];
       } else {
-        i = diagonal[kminus].originIndex + 1;
+        i = diagonal[kminus]!.originIndex + 1;
         prev = diagonal[kminus];
       }
 
@@ -81,7 +80,7 @@ PathNode _buildPath<E>(List<E> oldList, List<E> newList, Equalizer equals) {
 
       PathNode node = DiffNode(i, j, prev);
 
-      while (i < oldSize && j < newSize && equals(oldList[i], newList[j])) {
+      while (i < oldSize && j < newSize && equals!(oldList[i], newList[j])) {
         i++;
         j++;
       }
@@ -101,22 +100,22 @@ PathNode _buildPath<E>(List<E> oldList, List<E> newList, Equalizer equals) {
   throw Exception();
 }
 
-List<Diff> _buildPatch<E>(PathNode path, List<E> oldList, List<E> newList) {
+List<Diff> _buildPatch<E>(PathNode? path, List<E> oldList, List<E> newList) {
   if (path == null) throw ArgumentError("path is null");
 
-  final List<Diff> diffs = List();
+  final List<Diff> diffs = [];
   if (path.isSnake()) {
     path = path.previousNode;
   }
   while (path != null &&
       path.previousNode != null &&
-      path.previousNode.revisedIndex >= 0) {
+      path.previousNode!.revisedIndex >= 0) {
     if (path.isSnake()) throw Exception();
     int i = path.originIndex;
     int j = path.revisedIndex;
 
     path = path.previousNode;
-    int iAnchor = path.originIndex;
+    int iAnchor = path!.originIndex;
     int jAnchor = path.revisedIndex;
 
     List<E> original = oldList.sublist(iAnchor, i);
